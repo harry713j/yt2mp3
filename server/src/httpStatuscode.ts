@@ -1,6 +1,6 @@
 const OK = 200;
 const NOT_FOUND = 404;
-const BAD_REUEST = 400;
+const BAD_REQUEST = 400;
 const SERVER_ERROR = 500;
 const NO_CONTENT = 204;
 const METHOD_NOT_ALLOWED = 405;
@@ -8,7 +8,7 @@ const METHOD_NOT_ALLOWED = 405;
 export default {
   OK,
   NOT_FOUND,
-  BAD_REUEST,
+  BAD_REQUEST,
   SERVER_ERROR,
   NO_CONTENT,
   METHOD_NOT_ALLOWED,
