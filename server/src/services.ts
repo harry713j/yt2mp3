@@ -34,7 +34,7 @@ export function convertToMp3(url: string): Promise<Readable> {
   return new Promise((resolve, reject) => {
     const ytdlp = spawn("yt-dlp", ["-f", "bestaudio", "-o", "-", url]);
     const ffmpeg = spawn("ffmpeg", [
-      "-i",
+      "-i", // input flag
       "pipe:0", // input from yt-dlp
       "-vn", // no video
       "-ar",
@@ -45,8 +45,8 @@ export function convertToMp3(url: string): Promise<Readable> {
       "192k", // bitrate
       "-f",
       "mp3", // output format
-      "pipe:1",
-    ]); // output to stdout]);
+      "pipe:1", // output to stdout
+    ]);
 
     ytdlp.stdout.pipe(ffmpeg.stdin);
 

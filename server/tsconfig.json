@@ -8,9 +8,10 @@
     "types": ["node"],
     "moduleResolution": "nodenext",
     // Other Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    "declaration": false, // ❌ don't generate .d.ts
+    "sourceMap": false, // ❌ don't generate .js.map
+    "removeComments": true, // optional: cleaner JS
+    "declarationMap": false,
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
