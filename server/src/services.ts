@@ -1,6 +1,9 @@
-import { exec, spawn } from "child_process";
+import {
+  exec,
+  spawn,
+  type ChildProcessWithoutNullStreams,
+} from "child_process";
 import type { IValidateURL } from "./types.js";
-import type { Readable } from "stream";
 
 export function validateYTUrl(url: string): Promise<IValidateURL> {
   return new Promise((resolve, reject) => {
@@ -30,28 +33,20 @@ export function validateYTUrl(url: string): Promise<IValidateURL> {
   });
 }
 
-export function convertToMp3(url: string): Promise<Readable> {
-  return new Promise((resolve, reject) => {
-    const ytdlp = spawn("yt-dlp", ["-f", "bestaudio", "-o", "-", url]);
-    const ffmpeg = spawn("ffmpeg", [
-      "-i", // input flag
-      "pipe:0", // input from yt-dlp
-      "-vn", // no video
-      "-ar",
-      "44100", // sample rate
-      "-ac",
-      "2", // stereo
-      "-b:a",
-      "192k", // bitrate
-      "-f",
-      "mp3", // output format
-      "pipe:1", // output to stdout
-    ]);
+export function convertToMp3(url: string): ChildProcessWithoutNullStreams {
+  const args = [
+    "-f",
+    "bestaudio",
+    "-x",
+    "--audio-format",
+    "mp3",
+    "-o",
+    "-",
+    "--quiet", // no normal logs
+    "--no-warnings", // suppress warnings
+    "--no-progress", // disable progress bar
+    url,
+  ];
 
-    ytdlp.stdout.pipe(ffmpeg.stdin);
-
-    ffmpeg.once("spawn", () => resolve(ffmpeg.stdout));
-    ffmpeg.once("error", reject);
-    ytdlp.once("error", reject);
-  });
+  return spawn("yt-dlp", args);
 }

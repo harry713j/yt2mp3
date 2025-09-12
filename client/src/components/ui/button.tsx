@@ -8,7 +8,8 @@ export function Button({
   return (
     <button
       className={cn(
-        "bg-blue-400 text-white px-4 py-2 shadow-sm rounded-sm transition-colors duration-200 delay-100 cursor-pointer hover:bg-blue-500",
+        "bg-blue-400 text-white px-4 py-2 shadow-sm rounded-sm transition-colors duration-200 delay-100 cursor-pointer hover:bg-blue-500" +
+          "disabled:bg-blue-200 disabled:cursor-progress",
         className,
       )}
       {...props}

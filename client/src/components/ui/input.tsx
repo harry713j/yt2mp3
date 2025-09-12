@@ -10,8 +10,10 @@ export function Input({
     <input
       type={type}
       className={cn(
-        "w-full h-[48px] px-4 py-2 transition-all duration-200 delay-50 outline-1 outline-transparent" +
-          "outline-slate-500/30 rounded-sm focus:border-none focus:outline-2 focus:outline-blue-500 placeholder:text-slate-500/70",
+        "w-full h-[48px] px-4 py-2 rounded-md border-2 border-slate-400/60 " + // default border
+          "placeholder:text-slate-500/70 " +
+          "transition-all duration-300 ease-in-out " + // smooth animation
+          "focus:border-transparent focus:outline-2 focus:outline-blue-400",
         className,
       )}
       {...props}

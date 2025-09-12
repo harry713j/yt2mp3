@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import statusCode from "./httpStatuscode.js";
 import { loggingMiddleware, corsMiddleware, bodyParser } from "./middleware.js";
 import { respondWithError, respondWithJSON } from "./responder.js";
-import { handleDownload } from "./controller.js";
+import { handleDownload, handleHealth } from "./controller.js";
 
 config();
 
@@ -15,19 +15,8 @@ const requestListener = (req: IncomingMessage, res: ServerResponse) => {
       bodyParser(req, res, () => {
         switch (req.url) {
           case "/health":
-            if (req.method === "GET") {
-              respondWithJSON(res, statusCode.OK, {
-                message: "Server is running good!",
-              });
-              break;
-            } else {
-              respondWithError(
-                res,
-                statusCode.METHOD_NOT_ALLOWED,
-                "Method is not allowed for this end point",
-              );
-              break;
-            }
+            handleHealth(req, res);
+            break;
           case "/convert":
             handleDownload(req, res);
             break;

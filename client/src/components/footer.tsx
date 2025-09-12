@@ -14,7 +14,7 @@ export function Footer({
       {...props}
     >
       <p className="text-sm text-slate-400">
-        © {new Date().getFullYear()} YT2Mp3. All rights reserved.
+        ©{new Date().getFullYear()} YT2Mp3. All rights reserved.
       </p>
     </footer>
   );
