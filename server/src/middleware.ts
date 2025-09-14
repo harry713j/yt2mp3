@@ -5,11 +5,7 @@ import { config } from "dotenv";
 config();
 const ALLOWED_CLIENT = process.env.ALLOWED_CLIENT;
 
-function loggingMiddleware(
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: () => void,
-) {
+function logging(req: IncomingMessage, res: ServerResponse, next: () => void) {
   console.log(
     `Request Details - ${req.method} ${req.url} | Address: ${req.socket.remoteAddress} | ${new Date(Date.now()).toLocaleString()}`,
   );
@@ -17,11 +13,7 @@ function loggingMiddleware(
   next();
 }
 
-function corsMiddleware(
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: () => void,
-) {
+function cors(req: IncomingMessage, res: ServerResponse, next: () => void) {
   const origin = req.headers.origin; // browser sends this
 
   if (origin && ALLOWED_CLIENT && origin === ALLOWED_CLIENT) {
@@ -83,4 +75,4 @@ function bodyParser(
   });
 }
 
-export { loggingMiddleware, corsMiddleware, bodyParser };
+export { logging, cors, bodyParser };

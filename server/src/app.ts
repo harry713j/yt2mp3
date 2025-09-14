@@ -1,7 +1,7 @@
 import { createServer, IncomingMessage, ServerResponse } from "http";
 import { config } from "dotenv";
 import statusCode from "./httpStatuscode.js";
-import { loggingMiddleware, corsMiddleware, bodyParser } from "./middleware.js";
+import { logging, cors, bodyParser } from "./middleware.js";
 import { respondWithError, respondWithJSON } from "./responder.js";
 import { handleDownload, handleHealth } from "./controller.js";
 
@@ -10,8 +10,8 @@ config();
 const PORT = process.env.PORT;
 
 const requestListener = (req: IncomingMessage, res: ServerResponse) => {
-  loggingMiddleware(req, res, () => {
-    corsMiddleware(req, res, () => {
+  logging(req, res, () => {
+    cors(req, res, () => {
       bodyParser(req, res, () => {
         switch (req.url) {
           case "/health":
