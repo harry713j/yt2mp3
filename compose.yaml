@@ -1,0 +1,22 @@
+services:
+  server:
+    container_name: yt2mp3-server
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "8000:4000"
+    env_file:
+      - .env
+
+  web:
+    container_name: yt2mp3-web
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      - server
+    ports:
+      - "3000:5173"
+    environment:
+      - VITE_SERVER_URL=http://localhost:4000

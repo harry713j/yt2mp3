@@ -1,0 +1,15 @@
+# Ignore 
+node_modules/
+frontend/node_modules
+README.md
+LICENSE
+
+# Allow files and directories
+!/src
+
+# Ignore unnecessary files inside allowed directories
+# This should go after the allowed directories
+**/*~
+**/*.log
+**/.DS_Store
+Copied!   
