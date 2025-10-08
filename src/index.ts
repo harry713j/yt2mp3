@@ -1,10 +1,10 @@
-import { server, PORT } from "./app.js";
+import { app, PORT } from "./app.js";
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(
     "Server has started on Port",
     PORT,
     " | ",
-    new Date().toLocaleString(),
+    new Date().toLocaleString()
   );
 });
