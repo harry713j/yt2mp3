@@ -22,7 +22,10 @@ function App() {
       const response = await convertToMp3({ url: inputURL });
 
       if (!response.ok) {
-        toast.error("Failed to convert!");
+        const errorData = await response.json()
+        const errorMsg = errorData.message || "Request for conversion failed"
+        toast.error(errorMsg);
+        return
       }
 
       const blob = await response.blob();
@@ -31,8 +34,6 @@ function App() {
           .get("Content-Disposition")
           ?.split("filename=")[1]
           ?.replace(/"/g, "") || "audio.mp3";
-
-      console.log(response.headers.get("Content-Disposition"));
 
       const newDownloadResponse: ConvertResponse = {
         downloadURL: window.URL.createObjectURL(blob),

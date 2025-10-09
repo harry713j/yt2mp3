@@ -4,16 +4,19 @@ import { isValidUrl, normalizeYouTubeUrl } from "./utils.js";
 import type { IValidateURL } from "./types.js";
 import { convertToMp3, validateYTUrl } from "./services.js";
 
-export async function handleDownload(
-  req: Request,
-  res: Response,
-) {
+export async function handleDownload(req: Request,res: Response) {
+  if (req.method !== "POST") {
+    return res.status(HttpStatus.METHOD_NOT_ALLOWED).json({
+      message: "This method is not allowed"
+    })
+  }
+
   try {
     const rawUrl = req.body?.url;
 
     if (!rawUrl || !isValidUrl(rawUrl)) {
       return res.status(HttpStatus.BAD_REQUEST).json({
-        messsage: "Please provide valid url"
+        message: "Please provide valid url"
       })
     }
 
@@ -41,11 +44,13 @@ export async function handleDownload(
     }
 
     const safeTitle = videoData.title.replace(/[^a-z0-9_\-]/gi, "_");
-    res.writeHead(HttpStatus.OK, {
-      "Content-Disposition": `attachment; filename=${safeTitle}.mp3`,
-      "Content-Type": "audio/mpeg",
-      "Access-Control-Expose-Headers": "Content-Disposition",
-    });
+    // Need to change to express way
+    res.status(HttpStatus.OK).set({
+        "Content-Disposition": `attachment; filename="${safeTitle}.mp3"`,
+        "Content-Type": "audio/mpeg",
+        "Access-Control-Expose-Headers": "Content-Disposition",
+    })
+
 
     ytdlp.stdout.pipe(res);
 
@@ -80,6 +85,11 @@ export async function handleDownload(
 }
 
 export async function handleHealth(req: Request, res: Response) {
+  if (req.method !== "GET") {
+    return res.status(HttpStatus.METHOD_NOT_ALLOWED).json({
+      message: "This method is not allowed"
+    })
+  }
  try {
   return res.status(HttpStatus.OK).json({message: "Server is running good!"})
  } catch (error) {

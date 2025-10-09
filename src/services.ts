@@ -1,13 +1,9 @@
-import {
-  exec,
-  spawn,
-  type ChildProcessWithoutNullStreams,
-} from "child_process";
+import {exec, spawn, type ChildProcessWithoutNullStreams} from "child_process";
 import type { IValidateURL } from "./types.js";
 
 export function validateYTUrl(url: string): Promise<IValidateURL> {
   return new Promise((resolve, reject) => {
-    exec(`yt-dlp -j --skip-download ${url}`, (error, stdout, stderr) => {
+    exec(`yt-dlp --extractor-args "youtube:player_client=android" -j --skip-download ${url}`, (error, stdout, stderr) => {
       if (error) return reject(new Error("Invalid or inaccessible video url"));
 
       try {
@@ -35,8 +31,8 @@ export function validateYTUrl(url: string): Promise<IValidateURL> {
 
 export function convertToMp3(url: string): ChildProcessWithoutNullStreams {
   const args = [
-    "-f",
-    "bestaudio",
+    "--extractor-args",
+   "youtube:player_client=android",
     "-x",
     "--audio-format",
     "mp3",
